@@ -14,7 +14,7 @@ while True:
         print(f'x={array_of_coordinates[0]} , y={array_of_coordinates[1]}, z={array_of_coordinates[2]}')
     if distance: # ne pusto
         print(f'distance={distance}')
-    if battery_voltage: # not pusto
+    if battery_voltage: # ne pusto
         print(f'battery_voltage={battery_voltage}')
     # Проверяем, что данные получены (не None)
     if msg:
