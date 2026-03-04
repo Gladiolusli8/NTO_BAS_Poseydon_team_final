@@ -1,26 +1,50 @@
 from pioneer_sdk import Pioneer
+from pymavlink import mavutil
 import time
 import math
-dron = Pioneer()
-dron.connection.wait_heartbeat(timeout=10)# Запрашиваем поток ATTITUDE (сообщение с углами)
-# 1 = система, 30 = MAVLINK_MSG_ID_ATTITUDE, 10 = 10 Гц, 1 = старт
-dron.connection.mav.request_data_stream(1, 30, 10, 1)
+
+# Подключение
+drone = Pioneer()
+drone.connection.wait_heartbeat(timeout=10)
+
+# Запрос ATTITUDE 10 Гц (100000 мкс)
+drone.connection.mav.command_long_send(
+    drone.connection.target_system,
+    drone.connection.target_component,
+    mavutil.mavlink.MAV_CMD_SET_MESSAGE_INTERVAL,
+    0,
+    mavutil.mavlink.MAVLINK_MSG_ID_ATTITUDE,
+    100000,   # 10 Гц
+    0, 0, 0, 0, 0
+)
+
 while True:
-    array_of_coordinates = dron.get_local_position_lps() # koordy
-    distance = dron.get_dist_sensor_data() # dalnomer
-    battery_voltage = dron.get_battery_status() # zaryd
-    msg = dron.connection.recv_match(type='ATTITUDE', blocking=True, timeout=0.5)
-    if array_of_coordinates: # ne pusto
-        print(f'x={array_of_coordinates[0]} , y={array_of_coordinates[1]}, z={array_of_coordinates[2]}')
-    if distance: # ne pusto
-        print(f'distance={distance}')
-    if battery_voltage: # ne pusto
-        print(f'battery_voltage={battery_voltage}')
-    # Проверяем, что данные получены (не None)
+
+    # Дальномер
+    distance = drone.get_dist_sensor_data()
+
+    # Батарея
+    battery = drone.get_battery_status()
+
+    # ATTITUDE (неблокирующее чтение!)
+    msg = drone.connection.recv_match(
+        type='ATTITUDE',
+        blocking=False
+    )
+
+    if distance is not None:
+        print(f"Distance: {distance}")
+
+    if battery is not None:
+        print(f"Battery: {battery}")
+
     if msg:
-        # MAVLink отдаёт углы в радианах — конвертируем в градусы
         roll = math.degrees(msg.roll)
         pitch = math.degrees(msg.pitch)
         yaw = math.degrees(msg.yaw)
-        print(f"Крен: {roll:.2f}°, Тангаж: {pitch:.2f}°, Рысканье: {yaw:.2f}°")
-    time.sleep(2)
+
+        print(f"Roll: {roll:.2f}° | "
+              f"Pitch: {pitch:.2f}° | "
+              f"Yaw: {yaw:.2f}°")
+
+    time.sleep(0.1)
