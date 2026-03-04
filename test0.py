@@ -2,7 +2,7 @@ from pioneer_sdk import Pioneer
 import time
 import math
 drun = Pioneer()
-def wait_for_state(drone, target_state, timeout=30):
+def wait_for_state(drone, target_state):
     start = time.time()
     if drone.get_autopilot_state() != target_state:
         return False
@@ -18,3 +18,4 @@ try:
 except:
     drun.land()
     drun.disarm()
+drun.close_connection()
