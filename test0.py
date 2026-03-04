@@ -1,21 +1,15 @@
 from pioneer_sdk import Pioneer
 import time
-import math
-drun = Pioneer()
-def wait_for_state(drone, target_state):
-    start = time.time()
-    if drone.get_autopilot_state() != target_state:
-        return False
-    return True
+pioneer = Pioneer()
 try:
-    drun.arm()
-    drun.takeoff()
-    while not wait_for_state(drun, "MISSION"):
+    pioneer.arm()
+    pioneer.takeoff()
+    pioneer.go_to_local_point(x=0, y=0, z=1, yaw=0)
+    while not pioneer.point_reached():
         time.sleep(0.1)
-    time.sleep(10)
-    drun.land()
-    drun.disarm()
-except:
-    drun.land()
-    drun.disarm()
-drun.close_connection()
+    pioneer.land()
+    pioneer.disarm()
+except KeyboardInterrupt:
+    print("Остановка программы, производится посадка")
+    pioneer.land()
+pioneer.close_connection()
