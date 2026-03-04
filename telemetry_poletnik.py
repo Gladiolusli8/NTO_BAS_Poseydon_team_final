@@ -22,6 +22,5 @@ while True:
         roll = math.degrees(msg.roll)
         pitch = math.degrees(msg.pitch)
         yaw = math.degrees(msg.yaw)
-
         print(f"Крен: {roll:.2f}°, Тангаж: {pitch:.2f}°, Рысканье: {yaw:.2f}°")
     time.sleep(2)
