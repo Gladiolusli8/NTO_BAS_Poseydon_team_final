@@ -233,14 +233,23 @@ def main():
         # Полет по точкам
         for wp in WAYPOINTS:
             if not manager.fly_to(wp):
-                pass
+                print("⚠️ Ошибка на маршруте, продолжаю...")
+
+        # Посадка в начало координат
         manager.land_precise(x=0.0, y=0.0)
+
+        print("🏁 Миссия выполнена")
+
+    except KeyboardInterrupt:
+        print("\n⚠️ Стоп по кнопке")
     except Exception as e:
         print(f"\n❌ Ошибка: {e}")
     finally:
+        drone.set_manual_speed(0, 0, 0, 0)
         time.sleep(0.2)
-        drone.land()
-        drone.close_connection()
+        # Если дрон еще в воздухе - садим
+        if drone.get_local_position_lps() and drone.get_local_position_lps()[2] > 0.2:
+            drone.land()
 
 
 if __name__ == "__main__":
