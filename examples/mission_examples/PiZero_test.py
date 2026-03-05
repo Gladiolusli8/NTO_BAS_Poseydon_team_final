@@ -2,7 +2,7 @@ from pioneer_sdk import Pioneer
 import time
 
 # Инициализация дрона
-pioneer = Pioneer(ip='192.168.137.4', mavlink_port=5656) 
+pioneer = Pioneer()
 
 try:
     # Взлет на 1 метр

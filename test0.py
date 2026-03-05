@@ -1,6 +1,8 @@
 from pioneer_sdk import Pioneer
 import time
 pioneer = Pioneer()
+
+
 try:
     pioneer.arm()
     pioneer.takeoff()
