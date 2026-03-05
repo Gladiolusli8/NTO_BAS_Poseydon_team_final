@@ -82,6 +82,7 @@ if __name__ == "__main__":
 
     if roll is not None and pitch is not None and yaw is not None:
         exel.add_data_to_excel(EXEL_FILE, roll, pitch, yaw, 0, 0)
+        exit(0)
 
     cam_thread.join()
     tel_thread.join()
