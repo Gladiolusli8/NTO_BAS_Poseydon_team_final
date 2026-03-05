@@ -7,6 +7,7 @@ import numpy as np
 import PCA
 import exel 
 from image_actions import *
+import find_leds
 
 roll, pitch, yaw = None, None, None
 cv2.namedWindow("raw frame")
@@ -40,9 +41,20 @@ def camera_thread():
 
     while True:
         try:
-            frame = stream.get_frame()
+            frame = stream.read()
             if frame is not None:
                 cv2.imshow("raw frame", frame)
+
+                leds = find_leds.find_green_leds(None, None, frame)
+                if len(leds) == 2:
+                    x1, y1 = leds[0][0], leds[0][1]
+                    x2, y2 = leds[1][0], leds[1][1]
+                    avx, avy = int((x1 + x2) / 2), int((y1 + y2) / 2)
+                    print(f"{avx} {avy}")
+
+                if len(leds) == 1:
+                    x1, y1 = leds[0][0], leds[0][1]
+                    print(f"{x1} {y1}")            
 
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 _, bw = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
