@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     try:
         dron.connection.wait_heartbeat(timeout=3)
-        print("подключились")
+        print(" подключились")
     except:
         print("не подключились")
 
