@@ -17,13 +17,19 @@ def get_tel():
     if not dron:
         return None
 
-    msg = dron.connection.recv_match(type='ATTITUDE', blocking=False)
-    if msg:
-        roll = math.degrees(msg.roll)
-        pitch = math.degrees(msg.pitch)
-        yaw = math.degrees(msg.yaw)
-        print(f"Крен: {roll:.2f}°, Тангаж: {pitch:.2f}°, Рысканье: {yaw:.2f}°")
-    return roll, pitch, yaw
+    try:
+        msg = dron.connection.recv_match(type='ATTITUDE', blocking=True, timeout=1)
+        if msg:
+
+            roll = math.degrees(msg.roll)
+            pitch = math.degrees(msg.pitch)
+            yaw = math.degrees(msg.yaw)
+
+            print(f"Крен: {roll:.2f}° | Тангаж: {pitch:.2f}° | Рысканье: {yaw:.2f}°")
+            return roll, pitch, yaw
+        return None
+    except:
+        pass
 
 
 def tel_thread():
