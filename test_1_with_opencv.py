@@ -5,11 +5,13 @@ import threading
 import cv2
 import numpy as np
 import PCA
+import exel 
 from image_actions import *
 
-roll, pitch, yaw = 0
+roll, pitch, yaw = None, None, None
 cv2.namedWindow("raw frame")
 cv2.namedWindow("contours")
+EXEL_FILE = "Poseydon_telemetry.xlsx"
 
 def get_tel(dron):
     msg = dron.connection.recv_match(type='ATTITUDE', blocking=True, timeout=0.5)
@@ -76,5 +78,10 @@ if __name__ == "__main__":
 
     cam_thread.start()
     tel_thread.start()
+
+
+    if roll is not None and pitch is not None and yaw is not None:
+        exel.add_data_to_excel(EXEL_FILE, roll, pitch, yaw, 0, 0)
+
     cam_thread.join()
     tel_thread.join()
