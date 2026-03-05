@@ -44,10 +44,10 @@ def error_roll(roll):
     error_roll.last_time = current_time
 
     # УПРАВЛЕНИЕ МОТОРАМИ ЗДЕСЬ:
-    if output > 10:  # небольшой гистерезис, чтобы не дрожать около нуля
-        set_manual_speed_body_fixed(10, 0, 0, 0)  # крутим влево
-    elif output < -10:
-        set_manual_speed_body_fixed(-10, 0, 0, 0)  # крутим вправо
+    if output > 5:  # небольшой гистерезис, чтобы не дрожать около нуля
+        set_manual_speed_body_fixed(5, 0, 0, 0)  # крутим влево
+    elif output < -5:
+        set_manual_speed_body_fixed(-5, 0, 0, 0)  # крутим вправо
     else:
         set_manual_speed_body_fixed(0, 0, 0, 0)  # держим горизонт
 
