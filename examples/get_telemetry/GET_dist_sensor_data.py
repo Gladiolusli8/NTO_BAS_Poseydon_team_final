@@ -1,18 +1,18 @@
-from pioneer_sdk import Pioneer  
-import time  
+from pioneer_sdk import Pioneer
+import time
 
-# Создаем объект mini класса Pioneer
 mini = Pioneer()
 
-# Бесконечный цикл для постоянного опроса дальномера
+print("Начало координат установлено в точке старта.")
+print("Вывод текущих координат дрона (X, Y, Z) относительно старта:\n")
+
 while True:
-    # Получаем данные с дальномера (в метрах)
-    distance = mini.get_dist_sensor_data()
+    position = mini.get_local_position()  # или mini.get_position()
 
-    # Проверяем, получены ли данные (не None)
-    if distance is not None:
-        # Выводим расстояние в консоль
-        print(f'Расстояние: {distance:.2f} м')
+    if position is not None:
+        x, y, z = position
+        print(f"X: {x:6.2f} м, Y: {y:6.2f} м, Z: {z:6.2f} м")
+    else:
+        print("Данные о позиции недоступны. Проверьте подключение сенсоров или LPS.")
 
-    # Задержка вывода сообщений в консоль
-    time.sleep(2)
+    time.sleep(1)
