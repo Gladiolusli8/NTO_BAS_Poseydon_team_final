@@ -1,5 +1,5 @@
 from openpyxl import load_workbook
-#EXCEL_FILE = "drone_data.xlsx"
+#EXCEL_FILE = "Poseydon_telemetry.xlsx"
 
 def add_data_to_excel(filename, measure_id, roll, pitch, yaw, val1=0, val2=0):
     try:
