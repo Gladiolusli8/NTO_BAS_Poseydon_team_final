@@ -31,6 +31,7 @@ while True:
 
     if msg:
         roll = math.degrees(msg.roll)
+        print("aboba")
         pitch = math.degrees(msg.pitch)
         yaw = math.degrees(msg.yaw)
 
