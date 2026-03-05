@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="запись телеметрии в таблицу">
-      <change afterPath="$PROJECT_DIR$/stabil__roll.py" afterDir="false" />
+    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="-">
+      <change afterPath="$PROJECT_DIR$/stabil__osь.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/===============.py" beforeDir="false" afterPath="$PROJECT_DIR$/===============.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Poseydon_telemetry.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Poseydon_telemetry.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chelnok_polet_grubo.py" beforeDir="false" afterPath="$PROJECT_DIR$/chelnok_polet_grubo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/get_telemetry/GET_dist_sensor_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/get_telemetry/GET_dist_sensor_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stabil__roll.py" beforeDir="false" afterPath="$PROJECT_DIR$/stabil__roll.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +233,23 @@
       <option name="project" value="LOCAL" />
       <updated>1772708282407</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="-">
+      <option name="closed" value="true" />
+      <created>1772720571990</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1772720571990</updated>
+    </task>
+    <task id="LOCAL-00018" summary="-">
+      <option name="closed" value="true" />
+      <created>1772720674837</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1772720674837</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -248,6 +261,7 @@
     <MESSAGE value="получение медленной телеметрии" />
     <MESSAGE value="получение медленной телеметри" />
     <MESSAGE value="запись телеметрии в таблицу" />
-    <option name="LAST_COMMIT_MESSAGE" value="запись телеметрии в таблицу" />
+    <MESSAGE value="-" />
+    <option name="LAST_COMMIT_MESSAGE" value="-" />
   </component>
 </project>

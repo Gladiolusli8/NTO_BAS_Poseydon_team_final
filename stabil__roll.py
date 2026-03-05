@@ -33,11 +33,11 @@ def error_roll(roll):
 
     output = kp * error + ki * error_roll.integral + kd * derivative
 
-    # Ограничение выхода
-    if output > 500:
-        output = 500
-    elif output < -500:
-        output = -500
+    # # Ограничение выхода
+    # if output > 500:
+    #     output = 500
+    # elif output < -500:
+    #     output = -500
 
     # Сохраняем значения
     error_roll.prev_error = error
@@ -45,9 +45,9 @@ def error_roll(roll):
 
     # УПРАВЛЕНИЕ МОТОРАМИ ЗДЕСЬ:
     if output > 10:  # небольшой гистерезис, чтобы не дрожать около нуля
-        set_manual_speed_body_fixed(100, 0, 0, 0)  # крутим влево
+        set_manual_speed_body_fixed(10, 0, 0, 0)  # крутим влево
     elif output < -10:
-        set_manual_speed_body_fixed(-100, 0, 0, 0)  # крутим вправо
+        set_manual_speed_body_fixed(-10, 0, 0, 0)  # крутим вправо
     else:
         set_manual_speed_body_fixed(0, 0, 0, 0)  # держим горизонт
 
