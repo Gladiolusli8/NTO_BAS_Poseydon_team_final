@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="-add stab">
+    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="запись телеметрии в таблицу">
+      <change afterPath="$PROJECT_DIR$/aruco_pos.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/param.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/re3d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stabil__roll.py" beforeDir="false" afterPath="$PROJECT_DIR$/stabil__roll.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/zakl_nto_eto_pizda.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zakl_nto_eto_pizda.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +71,7 @@
     "Python.===============.executor": "Run",
     "Python.GET_dist_sensor_data.executor": "Run",
     "Python.PiZero_test.executor": "Run",
+    "Python.aruco_pos.executor": "Run",
     "Python.stabil__yaw.executor": "Run",
     "Python.stabiliziruemoe dvighenie.executor": "Run",
     "Python.telemetry_poletnik.executor": "Run",
@@ -232,47 +237,7 @@
       <option name="project" value="LOCAL" />
       <updated>1772708282407</updated>
     </task>
-    <task id="LOCAL-00017" summary="-">
-      <option name="closed" value="true" />
-      <created>1772720571990</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1772720571990</updated>
-    </task>
-    <task id="LOCAL-00018" summary="-">
-      <option name="closed" value="true" />
-      <created>1772720674837</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1772720674837</updated>
-    </task>
-    <task id="LOCAL-00019" summary="-fixed pid">
-      <option name="closed" value="true" />
-      <created>1772734724775</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1772734724775</updated>
-    </task>
-    <task id="LOCAL-00020" summary="-fixed pid">
-      <option name="closed" value="true" />
-      <created>1772734755663</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1772734755663</updated>
-    </task>
-    <task id="LOCAL-00021" summary="-add stab">
-      <option name="closed" value="true" />
-      <created>1772734962602</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1772734962602</updated>
-    </task>
-    <option name="localTasksCounter" value="22" />
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -284,9 +249,6 @@
     <MESSAGE value="получение медленной телеметрии" />
     <MESSAGE value="получение медленной телеметри" />
     <MESSAGE value="запись телеметрии в таблицу" />
-    <MESSAGE value="-" />
-    <MESSAGE value="-fixed pid" />
-    <MESSAGE value="-add stab" />
-    <option name="LAST_COMMIT_MESSAGE" value="-add stab" />
+    <option name="LAST_COMMIT_MESSAGE" value="запись телеметрии в таблицу" />
   </component>
 </project>
