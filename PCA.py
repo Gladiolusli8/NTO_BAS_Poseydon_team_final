@@ -54,8 +54,9 @@ def getOrientation(pts, img):
     
     return angle
 
-def get_angle_pca(image_path):
-    img = cv.imread(image_path, cv.IMREAD_GRAYSCALE)
+def get_angle_pca(image_path=None, img=None):
+    if image_path is not None:
+        img = cv.imread(image_path, cv.IMREAD_GRAYSCALE)
     contours, _ = cv.findContours(img, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     if not contours:
         return None
@@ -78,6 +79,7 @@ def draw_main_axis(img, contour, color=(0, 255, 0), length=100):
     
     return center
 
+"""
 src = cv.imread('drone.png')
 if src is None:
     print('Could not open or find the image: ', src)
@@ -105,3 +107,4 @@ for i, c in enumerate(contours):
 
 cv.imshow('output', src)
 cv.waitKey()
+"""
