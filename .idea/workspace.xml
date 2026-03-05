@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="получение медленной телеметри">
+    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="запись телеметрии в таблицу">
+      <change afterPath="$PROJECT_DIR$/stabil__roll.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/===============.py" beforeDir="false" afterPath="$PROJECT_DIR$/===============.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Poseydon_telemetry.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Poseydon_telemetry.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chelnok_polet_grubo.py" beforeDir="false" afterPath="$PROJECT_DIR$/chelnok_polet_grubo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/get_telemetry/GET_dist_sensor_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/get_telemetry/GET_dist_sensor_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +69,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.===============.executor": "Run",
+    "Python.GET_dist_sensor_data.executor": "Run",
     "Python.PiZero_test.executor": "Run",
+    "Python.stabil__yaw.executor": "Run",
+    "Python.stabiliziruemoe dvighenie.executor": "Run",
     "Python.telemetry_poletnik.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test0.executor": "Run",
@@ -77,9 +83,16 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true"
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\" />
+      <recent name="C:\Users\Roman\Downloads" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -199,7 +212,31 @@
       <option name="project" value="LOCAL" />
       <updated>1772704913206</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="получение медленной телеметри">
+      <option name="closed" value="true" />
+      <created>1772708217873</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1772708217873</updated>
+    </task>
+    <task id="LOCAL-00015" summary="запись телеметрии в таблицу">
+      <option name="closed" value="true" />
+      <created>1772708254413</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1772708254413</updated>
+    </task>
+    <task id="LOCAL-00016" summary="запись телеметрии в таблицу">
+      <option name="closed" value="true" />
+      <created>1772708282407</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1772708282407</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -210,6 +247,7 @@
     <MESSAGE value="Поднимаем дрон на метр. потом сажаем. предусмотренна принудительная посадка с ноутff" />
     <MESSAGE value="получение медленной телеметрии" />
     <MESSAGE value="получение медленной телеметри" />
-    <option name="LAST_COMMIT_MESSAGE" value="получение медленной телеметри" />
+    <MESSAGE value="запись телеметрии в таблицу" />
+    <option name="LAST_COMMIT_MESSAGE" value="запись телеметрии в таблицу" />
   </component>
 </project>

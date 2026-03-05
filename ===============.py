@@ -27,7 +27,7 @@ def telemetry_worker():
                 roll = math.degrees(msg.roll)
                 pitch = math.degrees(msg.pitch)
                 yaw = math.degrees(msg.yaw)
-                print(f"📡 {roll:6.1f}° | {pitch:6.1f}° | {yaw:6.1f}°")
+                print(f" {roll:6.1f}° | {pitch:6.1f}° | {yaw:6.1f}°")
 
                 exel.add_data_to_excel(EXEL_FILE, mesurent, roll, pitch, yaw, 0, 0)
 
