@@ -9,11 +9,11 @@ try:
         time.sleep(0.1)
     time.sleep(10)
     pioneer.land()
-    time.sleep(3)
+    time.sleep(10)
     pioneer.disarm()
 except KeyboardInterrupt:
     print("Остановка программы, производится посадка")
     pioneer.land()
-    time.sleep(3)
+    time.sleep(10)
     pioneer.disarm()
 pioneer.close_connection()
