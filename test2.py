@@ -240,6 +240,9 @@ def main():
     finally:
         time.sleep(0.2)
         drone.land()
+        while drone.get_autopilot_state() != "LANDED":
+            time.sleep(0.5)
+        drone.disarm()
         drone.close_connection()
 
 

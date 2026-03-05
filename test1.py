@@ -2,16 +2,13 @@ from pioneer_sdk import Pioneer
 from pymavlink import mavutil
 import time
 import math
-
-
 try:
     # Явно указываем правильный UDP-адрес
     drone = Pioneer()
-
     drone.connection.wait_heartbeat(timeout=15)
 
 except Exception as e:
-    print("Ошибка:", e)
+    print(e)
     exit()
 
 # Запрашиваем поток ATTITUDE 10 Гц
@@ -29,26 +26,23 @@ print("Начинаем приём телеметрии...\n")
 
 while True:
     try:
+        a = int(input())
+        if a == 1:
+            msg = drone.connection.recv_match(type='ATTITUDE', blocking=False)
 
-        msg = drone.connection.recv_match(type='ATTITUDE', blocking=False)
+            if msg:
+                roll = math.degrees(msg.roll)
+                pitch = math.degrees(msg.pitch)
+                yaw = math.degrees(msg.yaw)
 
-        if msg:
-            roll = math.degrees(msg.roll)
-            pitch = math.degrees(msg.pitch)
-            yaw = math.degrees(msg.yaw)
+                print(f"Крен: {roll:.2f}° | "
+                      f"Тангаж: {pitch:.2f}° | "
+                      f"Рысканье: {yaw:.2f}°")
 
-            print(f"Крен: {roll:.2f}° | "
-                  f"Тангаж: {pitch:.2f}° | "
-                  f"Рысканье: {yaw:.2f}°")
-
-        print("-" * 40)
-
-        time.sleep(0.1)
-
-    except KeyboardInterrupt:
-        print("\nОстановка программы.")
-        break
+            print("-" * 40)
+        if a == 0:
+            break
 
     except Exception as e:
-        print("Ошибка в цикле:", e)
+        print(e)
         time.sleep(1)

@@ -8,7 +8,7 @@ dron.connection.mav.request_data_stream(1, 30, 10, 1)
 while True:
     array_of_coordinates = dron.get_local_position_lps() # koordy
     distance = dron.get_dist_sensor_data() # dalnomer
-    battery_voltage = dron.get_battery_status() # zaryd
+    battery_voltage = dron.get_battery_status() # zaryad
     msg = dron.connection.recv_match(type='ATTITUDE', blocking=True, timeout=0.5)
     if array_of_coordinates: # ne pusto
         print(f'x={array_of_coordinates[0]} , y={array_of_coordinates[1]}, z={array_of_coordinates[2]}')

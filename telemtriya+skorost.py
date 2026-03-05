@@ -12,12 +12,6 @@ try:
 except Exception as e:
     print("❌ Ошибка подключения:", e)
     exit()
-
-# ===============================
-# Запрос потоков 50 Гц
-# ===============================
-
-# ATTITUDE
 drone.connection.mav.command_long_send(
     drone.connection.target_system,
     drone.connection.target_component,
@@ -28,7 +22,6 @@ drone.connection.mav.command_long_send(
     0, 0, 0, 0, 0
 )
 
-# LOCAL_POSITION_NED (там есть скорость)
 drone.connection.mav.command_long_send(
     drone.connection.target_system,
     drone.connection.target_component,

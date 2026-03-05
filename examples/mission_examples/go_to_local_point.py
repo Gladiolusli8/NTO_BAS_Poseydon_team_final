@@ -21,10 +21,7 @@ try:
     pioneer.go_to_local_point(x=1, y=1, z=1, yaw=0)
     while not pioneer.point_reached():
         time.sleep(0.1)
-
-    # Посадка
     pioneer.land()
-
 except KeyboardInterrupt:
     print("Остановка программы, производится посадка")
     pioneer.land()
