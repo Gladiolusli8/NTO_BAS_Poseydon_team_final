@@ -119,7 +119,7 @@ if __name__ == "__main__":
         dron.connection.mav.request_data_stream_send(1, 1, 30, 10, 1)  # 10 Гц
         print("📡 Запрошена телеметрия 10 Гц")
     except:
-        print("⚠️  Не удалось запросить поток")
+        print("⚠️  Не удалось запросить п оток")
 
     # ✅ Запуск потоков
     threading.Thread(target=tel_thread, daemon=True).start()
