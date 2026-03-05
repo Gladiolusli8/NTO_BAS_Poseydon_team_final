@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="-">
-      <change afterPath="$PROJECT_DIR$/stabil__osь.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d0d57e48-84c4-4afe-a804-0f24449dd8cc" name="Changes" comment="-fixed pid">
       <change beforePath="$PROJECT_DIR$/stabil__roll.py" beforeDir="false" afterPath="$PROJECT_DIR$/stabil__roll.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -249,7 +247,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772720674837</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="-fixed pid">
+      <option name="closed" value="true" />
+      <created>1772734724775</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1772734724775</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -262,6 +268,7 @@
     <MESSAGE value="получение медленной телеметри" />
     <MESSAGE value="запись телеметрии в таблицу" />
     <MESSAGE value="-" />
-    <option name="LAST_COMMIT_MESSAGE" value="-" />
+    <MESSAGE value="-fixed pid" />
+    <option name="LAST_COMMIT_MESSAGE" value="-fixed pid" />
   </component>
 </project>
