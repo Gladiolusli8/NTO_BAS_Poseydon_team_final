@@ -32,6 +32,29 @@
 
 ![контуры и окружности](https://github.com/Gladiolusli8/poseydon_nto/blob/main/conturs_with_circles.png)
 
+# Задание 3
+
+В третьем задании необходимо было выполнить целночный полет.
+![условие третей задачи](https://github.com/Gladiolusli8/poseydon_nto/blob/main/statement.png)
+
+Написать программу автономного полёта, которая должна обеспечить челночный пролёт расстояния в (2,5 + 2,5 + 2,5) метров и + 1,25 метра на высоте 1-2 м для посадки в середине лётного поля. Размеры сетки 3х3х3 м 3.
+
+Поле, сфотографированное сверху 
+![поле](https://github.com/Gladiolusli8/poseydon_nto/blob/main/image.png)
+
+Поле, после фильтров
+![поле с фильтрами](https://github.com/Gladiolusli8/poseydon_nto/blob/main/lines.png)
+
+Поле, после фильтров и функции удалении все, кроме линии
+![поле с фильтрами](https://github.com/Gladiolusli8/poseydon_nto/blob/main/output.png)
+
+
+Поле, после фильтров и функции удалении все, кроме линии, а также с bounding boxes и найденными центрами линий
+![поле с фильтрами](https://github.com/Gladiolusli8/poseydon_nto/blob/main/conturs_with_centers.png)
+
+Кроме этого программа должна определить скорость бокового ветра и записать
+её в файл .txt (скорость ветра = … м/с)
+
 ## Структура работы
 
 Программа разделена на несколько потоков:
