@@ -3,18 +3,22 @@ from pymavlink import mavutil
 import time, math, threading, cv2, numpy as np
 import PCA, exel
 from image_actions import *
+import through_circles
 
 # Глобальные переменные
 roll = 0.0
 pitch = 0.0
 yaw = 0.0
+cv_roll = 0
+cv_pitch = 0
+msg = None
 EXEL_FILE = "Poseydon_telemetry.xlsx"
 running = True
 dron = None
 mesurent = 0
 
 def telemetry_worker():
-    global running, roll, pitch, yaw, dron, mesurent
+    global running, roll, pitch, yaw, dron, mesurent, msg
     mesurent +=1
     while running:
         if not dron:
@@ -28,9 +32,6 @@ def telemetry_worker():
                 pitch = math.degrees(msg.pitch)
                 yaw = math.degrees(msg.yaw)
                 print(f" {roll:6.1f}° | {pitch:6.1f}° | {yaw:6.1f}°")
-
-                exel.add_data_to_excel(EXEL_FILE, mesurent, roll, pitch, yaw, 0, 0)
-
         except Exception as e:
             print(e)
 
@@ -39,7 +40,7 @@ def telemetry_worker():
 
 def camera_thread():
     """Камера независимо"""
-    global running
+    global running, cv_roll, cv_pitch
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print()
@@ -54,19 +55,21 @@ def camera_thread():
 
         cv2.imshow("raw frame", frame)
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        _, bw = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        contours, _ = cv2.findContours(bw, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        anglex, angley, getback = through_circles.get_pitch_roll(frame=frame, get_back=True)
+        if len(anglex) > 0:
+            cv_roll = anglex[0]
+        if len(angley) > 0:
+            cv_pitch = angley[0]
+            
+        cv2.imshow("contours", getback)
+        if len(anglex) > 0 and len(angley) > 0:
+            print(f"{anglex}, {angley}")
 
-        for c in contours:
-            if 100 <= cv2.contourArea(c) <= 100000:
-                cv2.drawContours(frame, [c], -1, (0, 0, 255), 2)
-                angle = PCA.get_angle_pca(image_path=None, img=frame)
-                print(f"Угол PCA: {angle}")
-                PCA.draw_main_axis(frame, c)
-                break
+        key = cv2.waitKey(1)
+        if key == 112:
+            print("p pressed")
+            exel.add_data_to_excel(EXEL_FILE, mesurent, roll, pitch, yaw, cv_roll, cv_pitch)
 
-        cv2.imshow("contours", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             running = False
             break
