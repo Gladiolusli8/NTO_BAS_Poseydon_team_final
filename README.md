@@ -51,23 +51,25 @@
         yaw = math.degrees(msg.yaw)
 ```
 
-Определение центра маркера:
+Обработка OpenCV:
 
 ```python
-if ids is not None:
-    cX = int(corners[0][0][:, 0].mean())
-    frame_center = frame.shape[1] // 2
+ДОПИСАТЬ!!!
 ```
 
-Вращение до центрирования:
+Запись данных в таблицу:
 
 ```python
-if cX < frame_center - 20:
-    send_command(-0.5, 0.5)
-elif cX > frame_center + 20:
-    send_command(0.5, -0.5)
-else:
-    send_command(0, 0)
+# Загружаем книгу
+wb = load_workbook(filename)
+ws = wb.active
+
+ws.cell(row=row, column=1).value = measure_id  # Номер измерения
+ws.cell(row=row, column=2).value = round(roll, 2)  # Крен
+ws.cell(row=row, column=3).value = round(pitch, 2)  # Тангаж
+ws.cell(row=row, column=4).value = round(yaw, 2)  # Рысканье
+ws.cell(row=row, column=5).value = val1  # Доп столбец 1
+ws.cell(row=row, column=6).value = val2  # Доп столбец 2
 ```
 
 ## Потоки
@@ -79,18 +81,8 @@ else:
 ## Блок схема 
 
 ---
-
-
-![скрин с файла](https://github.com/anastshalim/DreamTeam/blob/main/My%20First%20Board.jpg)
-
-
+ДОПИСАТЬ!!!
 ---
-
-## Видео демонстрации
-
-Ссылка на видео работы программы:
-
-https://drive.google.com/file/d/1QgpxaFvK1axDy7W31RFRINa43FNDbCXE/view?usp=sharing
 
 ##Вывод в терминал id markera:
 ---
