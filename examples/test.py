@@ -31,7 +31,7 @@ if __name__ == "__main__":
             elif key == ord("2"):
                 pioneer_mini.disarm()
 
-            time.sleep(0.02)
+
 
     finally:
         time.sleep(1)
