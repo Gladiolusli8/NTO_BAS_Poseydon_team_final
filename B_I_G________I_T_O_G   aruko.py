@@ -9,12 +9,14 @@ Poseydon Autonomous Flight Mission
 Коррекция по ArUco меткам для ровности
 """
 
-from pioneer_sdk import Pioneer
+from pioneer_sdk import Pioneer, Camera
 from pymavlink import mavutil
 import threading
 import time
 import math
 import os
+import numpy as np
+import cv2
 
 # ====================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ======================
 roll = 0.0
@@ -35,7 +37,16 @@ aruco_x_center = 0  # положение метки по X в пикселях
 aruco_id = -1
 aruco_distance = 0  # расстояние до метки в метрах
 
-
+with open('param.txt') as f:
+    cameraMatrix = np.array(eval(f.readline()), dtype=np.float64)
+    distCoeffs = np.array(eval(f.readline()), dtype=np.float64)
+if distCoeffs.ndim == 1:
+    distCoeffs = distCoeffs.reshape(-1, 1)
+aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+# Загрузка стандартного словаря ArUco маркеров 4x4
+parameters = cv2.aruco.DetectorParameters()
+# Создание объекта параметров детектора ArUco маркеров
+detector = cv2.aruco.ArucoDetector(aruco_dict, parameters)
 # ====================== ПОТОК ТЕЛЕМЕТРИИ ======================
 def telemetry_worker():
     """Получение углов дрона в отдельном потоке"""
@@ -81,8 +92,7 @@ def aruco_worker():
     print("[ARUCO] Поток ArUco запущен (ЗАГЛУШКА)")
 
     while running:
-        # Здесь будет реальный код детекции ArUco
-        # Пока просто заглушка
+
         time.sleep(0.1)
 
 
