@@ -44,8 +44,11 @@
 Сбор телеметрии с датчиков:
 
 ```python
-gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-corners, ids, _ = cv2.aruco.detectMarkers(gray, aruco_dict)
+ msg = dron.connection.recv_match(type='ATTITUDE', blocking=True, timeout=0.5)
+    if msg:
+        roll = math.degrees(msg.roll)
+        pitch = math.degrees(msg.pitch)
+        yaw = math.degrees(msg.yaw)
 ```
 
 Определение центра маркера:
