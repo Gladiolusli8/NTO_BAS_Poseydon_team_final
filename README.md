@@ -9,6 +9,16 @@
 
 ---
 
+# Задание 1
+
+## Файл
+
+`telemetry_poletnik.py`
+
+## Описание
+
+Первое задание это просто тест работы дрона. Просто взлететь и взять телеметрию. Далее нужно сесть вниз.
+
 # Задание 2
 
 ## Файл
@@ -52,8 +62,16 @@
 Поле, после фильтров и функции удалении все, кроме линии, а также с bounding boxes и найденными центрами линий
 ![поле с фильтрами](https://github.com/Gladiolusli8/poseydon_nto/blob/main/conturs_with_centers.png)
 
-Кроме этого программа должна определить скорость бокового ветра и записать
-её в файл .txt (скорость ветра = … м/с)
+Кроме этого программа должна определить скорость бокового ветра и записать её в файл .txt (скорость ветра = … м/с).
+Мы придумали решить эту задачу при помощи фильтра Калмана. Эта решение описано в файле `wind_opr.py`.
+
+```python
+def estimate_wind_speed(roll, pitch):
+    theta = math.sqrt(roll**2 + pitch**2)
+    force = MASS * G * math.tan(theta)
+    v = math.sqrt(abs((2 * force) / (AIR_DENSITY * CD * AREA)))
+    return v
+```
 
 ## Структура работы
 
@@ -83,7 +101,42 @@
 Обработка OpenCV:
 
 ```python
-ДОПИСАТЬ!!!
+def camera_thread():
+    global set_target, cv_target
+    camera = Camera()
+    camera.connect()
+    
+    while True:
+        img = test
+        cv2.imshow("img", img)
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+        mask = cv2.inRange(hsv, b_min, b_max)
+        kernel = np.ones((5, 5), np.uint8)
+        dilated_mask = cv2.dilate(mask, kernel, iterations=2)
+        eroded_mask = cv2.erode(dilated_mask, kernel, iterations=1)
+
+        lines_img = lines.clean_and_isolate_lines(eroded_mask)
+        cv2.imshow("clean", lines_img)
+        
+        inverted_lines = cv2.bitwise_not(lines_img)
+        contours, _ = cv2.findContours(inverted_lines, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        img_with_contours = img.copy()
+        centers = []
+        
+        for c in contours:
+            perimeter = cv2.arcLength(c, True)
+
+            if perimeter > 100: 
+                rect = cv2.minAreaRect(c)
+                box = cv2.boxPoints(rect)
+                box = box.astype(int)
+                center = (int(rect[0][0]), int(rect[0][1]))
+                cv2.drawContours(img_with_contours, [box], 0, (0, 255, 0), 3)
+                cv2.circle(img_with_contours, center, 10, (0, 0, 255), -1)
+                print(f"Найден объект. Центр: X={center[0]}, Y={center[1]}")
+                centers.append(center)
 ```
 
 Запись данных в таблицу:
@@ -101,251 +154,9 @@ ws.cell(row=row, column=5).value = val1  # Доп столбец 1
 ws.cell(row=row, column=6).value = val2  # Доп столбец 2
 ```
 
-## Потоки
-
-* Поток камеры
-* Поток отправки команд
-* Основной поток управления
-
 ## Блок схема 
 
 ---
 ДОПИСАТЬ!!!
 ---
 
-##Вывод в терминал id markera:
----
-
-![скрин с файла](https://github.com/anastshalim/DreamTeam/blob/main/photo_2026-02-27_12-59-14.jpg)
-
-
----
-
-# Задание 2
-
-## Файл
-
-`prov5.py`
-
-## Описание
-
-Во втором задании реализовано движение робота вдоль стены с использованием лидара.
-
-Программа получает данные о расстояниях до объектов вокруг робота и на их основе управляет скоростью колёс.
-
-## Основные компоненты программы
-
-### 1. Работа с лидаром  
-- Подключение к устройству  
-- Чтение пакетов данных  
-- Проверка корректности данных  
-- Формирование полного сканирования на 360 градусов  
-
-### 2. Связь с роботом  
-Через последовательный порт:
-- Получение углов и скоростей колёс  
-- Отправка управляющих команд  
-
-Частота обмена — 50 Гц.
-
-### 3. Алгоритм управления (motion_control)
-
-Алгоритм:
-- Держится выбранной стены (левой или правой)  
-- Корректирует направление движения  
-- Поворачивает при препятствии впереди  
-- Поддерживает безопасную дистанцию
-
-### 4. Считывание маркеров
-
-В отдельном потоке читаются кадры с камеры
-При обнаружении маркера, его айди пишется в файл
----
-
-## Многопоточность
-
-Используются два параллельных потока:
-- поток управления роботом  
-- поток обработки данных лидара  
-
-Главный цикл вычисляет команды движения и передаёт их роботу.
-
-робот автоматически останавливается в финальной ячейке либо завершает работу по прерыванию (Ctrl+C).
-
-## Проблема с ArUco
-
-В процессе разработки добавлялась детекция ArUco-маркеров, однако в текущей версии она работает некорректно. Возможная причина — ошибка в обработке изображения или настройке параметров детекции.
-
----
-
-## Програмный код 
-
----
-
-## Движение вдоль стены по лидару
-
-## 1. Работа с лидаром
-
-Подключение:
-
-```python
-class LIDAR:
-    def __init__(self, port, baudrate):
-        self.serial_conn = serial.Serial(port, baudrate, timeout=1)
-```
-
-Чтение данных:
-
-```python
-def read_lidar_data(self):
-    packet = self.serial_conn.read(49)
-    return packet
-```
-
-Проверка CRC:
-
-```python
-def calculate_crc8(data):
-    crc = 0
-    for byte in data:
-        crc ^= byte
-    return crc
-```
-
-Формирование полного сканирования:
-
-```python
-scan_array = np.vstack(laser_scan)
-theta = scan_array[:, 0] * np.pi / 180
-length = scan_array[:, 1] / 1000
-```
-
----
-
-## 2. Связь с роботом (50 Гц)
-
-Частота обмена:
-
-```python
-T = 1 / 50
-```
-
-Получение данных:
-
-```python
-def read_packet(ser):
-    chunk = ser.read_until(b"\x7E")
-    values = struct.unpack("<ffffx", chunk)
-    return values
-```
-
-Отправка скоростей:
-
-```python
-buf = struct.pack("<ff", wl_star, wr_star)
-ser.write(buf)
-ser.flush()
-```
-
----
-
-## 3. Алгоритм motion_control
-
-Определение направлений:
-
-```python
-forward_idx = (theta > -0.26) & (theta < 0.26)
-```
-
-Поворот при препятствии:
-
-```python
-if dist_forward < safe_dist:
-    wl_star = -max_speed
-    wr_star = max_speed
-```
-
-Движение вдоль стены:
-
-```python
-if dist_right > safe_dist:
-    wl_star = max_speed
-    wr_star = max_speed * 0.8
-else:
-    wl_star = max_speed * 0.8
-    wr_star = max_speed
-```
-
----
-
-## Многопоточность
-
-Создание потоков:
-
-```python
-robot_thread = threading.Thread(target=robot_process)
-lidar_thread = threading.Thread(target=lidar_process)
-t_cam = threading.Thread(target=cam_process, lock)
-
-robot_thread.start()
-lidar_thread.start()
-t_cam.start()
-```
-
-```
-
-Принудительная остановка по Ctrl+C:
-
-```python
-except KeyboardInterrupt:
-    robot_info["state"] = False
-    lidar_info["state"] = False
-```
----
-## Блок схема 2 тестовой задачи 
-
----
-
-
-![скрин с файла](https://github.com/anastshalim/DreamTeam/blob/main/prov6.jpg)
-
-##Почти успели добавить fastSLAM
-
-Робот в состоянии нарисовать карту местности отдельно от задачи                                                                                        
-Функции для рассчета одометрии перебивали соединение с сериал портом, поэтому робот не был в состоянии нормально ориентироваться и ездить по местности. 
-
-
-
----
-
-![скрин с файла](photo_2026-02-27_12-59-04.jpg)
-
-
-----
-
-ссылка на видео второго здаания
-https://drive.google.com/file/d/1sUMWgL0vkWVIRpzqY-6b_c7PdLrizil_/view?usp=sharing
-
-
-## Была попытка добавить ROS
-Мы пытались поставить ros jazzy на ubuntu. Она была успешной, но мы не успевали по времени, т.к. опыта работы с Docker было очень мало. 
-Вчера мы решили сделать решение без него.
-Проблема была в том, что мы не моггли нормально создать свой пакет для одометрии и потеряли кучу времени.  Если бы мы его добавили, то смогли бы использовать SLAM-Toolbox, Navigation2, RobotLocalizationEKF, RF2O laser odometry. 
-
----
-# Использованные технологии
-
-- Python  
-- OpenCV  
-- NumPy  
-- Serial (UART)  
-- Многопоточность (threading)  
-- LIDAR  
-- CRC8  
-- FastSLAM
----
-
-# Итог
-
-Задание 1: реализован поиск маркера и остановка по центру изображения.  
-Задание 2: реализовано движение робота вдоль стены по данным лидара.  
