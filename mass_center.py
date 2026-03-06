@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-
+"""
 img1 = cv.imread("video/image_l/square.png")
 img = cv.cvtColor(img1, cv.COLOR_BGR2GRAY)
 assert img is not None, "file could not be read, check with os.path.exists()"
@@ -20,3 +20,11 @@ cv.imshow('res', img1)
 k = cv.waitKey(0)
 if k == 27:
     cv.destroyAllWindows()
+"""
+def find_center(contour):
+    cx, cy = -1, -1
+    if M['m00'] != 0:
+        cx = int(M['m10'] / M['m00'])
+        cy = int(M['m01'] / M['m00'])
+    return cx, cy
+    
