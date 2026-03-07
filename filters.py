@@ -49,8 +49,9 @@ closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, kernel, iterations=1)
 erode_mask = cv2.erode(closed, kernel, iterations=1)
 cv2.imshow('erode', erode_mask)
 """
-img = cv2.imread("test_1.png")
+img = cv2.imread("roi_example.png")
 closed = get_binary_image(img)
+cv2.imshow("closed", closed)
 
 min_area = 200
 filtered_mask = np.zeros_like(closed)

@@ -83,7 +83,7 @@ def camera_thread():
                 cv2.circle(img_with_contours, center, 10, (0, 0, 255), -1)
                 print(f"Найден объект. Центр: X={center[0]}, Y={center[1]}")
                 centers.append(center)
-        
+        """
         if len(centers) > 0:
             if cv_target is not None:
                 set_target = False
@@ -98,7 +98,7 @@ def camera_thread():
 
             dron.go_to_local_point(yaw=0)
             dron.go_to_local_point(0, 1.25, 1.5)
-            
+        """
 
         cv2.imshow("lines with contours", img_with_contours)
         cv2.waitKey(0)
