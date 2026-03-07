@@ -19,6 +19,8 @@
 
 Первое задание это просто тест работы дрона. Просто взлететь и взять телеметрию. Далее нужно сесть вниз.
 
+---
+
 # Задание 2
 
 ## Файл
@@ -40,7 +42,122 @@
 5. По полученным окружностям вычисляет оглы поворота относительно оси x и y
 6. Запыисывает в Excel файл углы
 
+Бинарное изображение после фильтров:
+![фильтры](https://github.com/Gladiolusli8/poseydon_nto/blob/main/binary_circles.png)
+Выделенные контуры окружностей и отмеченная ориентации на изображении:
 ![контуры и окружности](https://github.com/Gladiolusli8/poseydon_nto/blob/main/conturs_with_circles.png)
+
+Для нахождения углов использовался алгоритм метод главных компонент. Он описан в файле `PCA.py`, а также в файле `through_circles.py`, т.к. для кругов было проще сделать немного по другому.
+Отрывок из `PCA.py`:
+```python
+def get_orientation_pca(cnt, center_coords, img_to_draw=None):
+    """
+    Принимает:
+    - cnt: контур (точки)
+    - center_coords: кортеж или список (x, y) - центр контура
+    - img_to_draw: (опционально) изображение, на котором рисовать стрелки
+    
+    Возвращает:
+    - angle_deg: угол в градусах относительно оси X
+    """
+    # 1. Подготовка точек контура
+    data_pts = cnt.reshape(-1, 2).astype(np.float64)
+    
+    # 2. Подготовка центра для PCA (нужен формат numpy array)
+    mean = np.array([center_coords], dtype=np.float64).reshape(1, 2)
+    
+    # 3. PCA анализ с использованием переданного центра
+    # Используем PCACompute, передавая заранее вычисленное среднее
+    _, eigenvectors, eigenvalues = cv.PCACompute2(data_pts, mean=mean)
+
+    # Главный вектор (направление длины эллипса)
+    v1 = eigenvectors[0] 
+    
+    # 4. Вычисление угла в градусах относительно оси X
+    # В OpenCV Y направлен вниз, поэтому atan2(y, x) даст корректный угол
+    angle_rad = atan2(v1[1], v1[0])
+    angle_deg = np.degrees(angle_rad)
+
+    # 5. Отрисовка (если передано изображение)
+    if img_to_draw is not None:
+        cx, cy = int(center_coords[0][0]), int(center_coords[0][1])
+        
+        # Длина стрелок на основе собственных чисел (eigenvalues)
+        scale = 0.5 * np.sqrt(eigenvalues[0][0])
+        
+        # Конечная точка главной оси (зеленая)
+        p1 = (int(cx + v1[0] * scale), int(cy + v1[1] * scale))
+        cv.arrowedLine(img_to_draw, (cx, cy), p1, (0, 255, 0), 2, tipLength=0.3)
+        
+        # Вторая ось (синяя) для наглядности
+        if len(eigenvectors) > 1:
+            v2 = eigenvectors[1]
+            scale2 = 0.5 * np.sqrt(eigenvalues[1][0])
+            p2 = (int(cx + v2[0] * scale2), int(cy + v2[1] * scale2))
+            cv.arrowedLine(img_to_draw, (cx, cy), p2, (255, 255, 0), 2, tipLength=0.3)
+
+    return angle_deg
+```
+И из `through_circles.py`:
+```python
+def get_pitch_roll(frame, get_back=False):
+    closed = filters.get_binary_image(frame)
+    min_area = 20000
+    filtered_mask = np.zeros_like(closed)
+    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(closed, connectivity=4)
+
+    angles_x = []
+    angles_y = []
+    for i in range(1, num_labels):
+        area = stats[i, cv2.CC_STAT_AREA]
+        #print(area)
+        if area > min_area < 350000:
+            # Создаём маску только для текущей компоненты
+            component_mask = (labels == i).astype(np.uint8) * 255
+
+            # Вычисляем моменты
+            M = cv2.moments(component_mask)
+            if M['m00'] != 0:
+                cx = int(M['m10'] / M['m00'])
+                cy = int(M['m01'] / M['m00'])
+
+                # Центральные моменты второго порядка
+                mu20 = M['mu20']
+                mu02 = M['mu02']
+                mu11 = M['mu11']
+
+                # Угол ориентации главной оси (в радианах)
+                theta_x = 0.5 * np.arctan2(2 * mu11, mu20 - mu02)
+                angle_deg_x = np.degrees(theta_x)  # если нужен в градусах
+                angles_x.append(angle_deg_x)
+
+                angle_from_y = np.pi / 2 - theta_x
+                angle_from_y_deg = np.degrees(angle_from_y)
+                angles_y.append(angle_from_y_deg)
+
+                # Рисуем центр
+                cv2.circle(frame, (cx, cy), 5, (0, 0, 255), -1)
+
+                # Рисуем линию, показывающую ориентацию (длина 50 пикселей)
+                length = 50
+                x2 = int(cx + length * np.cos(theta_x))
+                y2 = int(cy - length * np.sin(angle_from_y))
+                cv2.line(frame, (cx, cy), (x2, y2), (255, 0, 0), 2)
+
+                # Можно также нарисовать контур всей компоненты для наглядности
+                contours, _ = cv2.findContours(component_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)
+        else:
+            angles_x.append(0.0)
+            angles_y.append(90.0)
+    if get_back == True: 
+        return angles_x, angles_y, frame
+    return angles_x, angles_y
+```
+В каждом из файлов есть примеры изпользования.
+Но такой подход имеет большой минус: окружность может повернуться так, что будет мёртвая зона. И в целом задача решена не правильно. Этот подход определяет не крен и тангаж, а рысканье и крен.
+
+---
 
 # Задание 3
 
